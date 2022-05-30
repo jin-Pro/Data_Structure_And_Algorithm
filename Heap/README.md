@@ -11,3 +11,32 @@
 ## 힙의 종류
 - 최소 힙
 - 최대 힙
+
+## 메서드
+
+### add
+
+- tree 에 node를 push한다.
+- length 정리
+- bottomUp 정리
+
+#### bottomUp
+
+- 추가한 데이터는 제일 마지막 노드이다.
+- 부모 노드관련 데이터를 구한다. ( feat : getBottomUpData = (idx,tree) => parentIdx,parent )
+- 부모 노드와 target(자식노드)를 비교하여 바꿔준다.
+- 반복한다.
+
+---
+
+### delete
+
+- 가장 마지막 노드를 최상단으로 올린다.
+- topDown 정리를 진행한다.
+
+#### topDown
+
+- 최상단의 노드와 그의 자식 노드를 비교하여 바꿔준다.
+
+---
+
