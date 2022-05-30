@@ -1,0 +1,19 @@
+{
+  "name": "data_structure_algorithm",
+  "version": "1.0.0",
+  "description": "js로 자료구조와 특정 알고리즘 구현하기",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jin-Pro/data_structure_algorithm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jin-Pro/data_structure_algorithm/issues"
+  },
+  "homepage": "https://github.com/jin-Pro/data_structure_algorithm#readme"
+}
