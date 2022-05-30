@@ -11,4 +11,9 @@ node1.add(node3,'right')
 node2.add(node4,'left')
 node3.add(node5,'left')
 
-node1.print();
+node1.preOrderPrint();
+console.log('---')
+node1.inOrderPrint();
+console.log('---')
+node1.postOrderPrint();
+console.log('---')

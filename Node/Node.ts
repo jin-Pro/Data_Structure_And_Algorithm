@@ -20,19 +20,31 @@ export class node <T> {
     this[type] = null;
   }
 
-  print(){
-    if(this.left) this.left.print();
+  preOrderPrint(){
     console.log(this.value);
-    if(this.right) this.right.print();
+    if(this.left) this.left.preOrderPrint();
+    if(this.right) this.right.preOrderPrint();
+  }
+  inOrderPrint(){
+    if(this.left) this.left.inOrderPrint();
+    console.log(this.value);
+    if(this.right) this.right.inOrderPrint();
+  }
+  postOrderPrint(){
+    if(this.left) this.left.postOrderPrint();
+    if(this.right) this.right.postOrderPrint();
+    console.log(this.value);
   }
 }
 
-export interface NodeType<T> {
+type NodeType<T> = {
   left: NodeType<T> | null;
   right: NodeType<T> | null;
   parent: NodeType<T> | null;
   value : T;
   add : (item:NodeType<T>,type :'right'|'left') => void;
   remove : (type :'right'|'left') => void;
-  print : () => void;
+  preOrderPrint : () => void;
+  inOrderPrint : () => void;
+  postOrderPrint : () => void;
 };
