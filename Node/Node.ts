@@ -1,6 +1,6 @@
 export class node <T> {
-  left:NodeType | null;
-  right:NodeType | null;
+  left:NodeType<T> | null;
+  right:NodeType<T> | null;
   value : T;
 
   constructor(value : T){
@@ -9,8 +9,9 @@ export class node <T> {
     this.value = value;
   }
 
-  add(item:NodeType,type:'right' | 'left'){
-    this[type] = item;
+  add(type:'right' | 'left',value:T){
+    const addNode = new node(value);
+    this[type] = addNode;
   }
 
   remove(type:'right' | 'left'){
@@ -24,10 +25,11 @@ export class node <T> {
   }
 }
 
-interface NodeType {
-  left: NodeType | null;
-  right: NodeType | null;
-  add : (item:NodeType,type :'right'|'left') => void;
+export interface NodeType<T> {
+  left: NodeType<T> | null;
+  right: NodeType<T> | null;
+  value : T;
+  add : (type :'right'|'left',value:T) => void;
   remove : (type :'right'|'left') => void;
   print : () => void;
 };
