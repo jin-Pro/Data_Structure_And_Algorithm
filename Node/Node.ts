@@ -1,17 +1,19 @@
 export class node <T> {
   left:NodeType<T> | null;
   right:NodeType<T> | null;
+  parent:NodeType<T> | null;
   value : T;
 
-  constructor(value : T){
+  constructor(value : T,parent : NodeType<T> | null = null){
     this.left = null;
     this.right = null;
     this.value = value;
+    this.parent = parent;
   }
 
-  add(type:'right' | 'left',value:T){
-    const addNode = new node(value);
-    this[type] = addNode;
+  add(item:NodeType<T>,type:'right' | 'left'){
+    this[type] = item;
+    item.parent = this;
   }
 
   remove(type:'right' | 'left'){
@@ -28,8 +30,9 @@ export class node <T> {
 export interface NodeType<T> {
   left: NodeType<T> | null;
   right: NodeType<T> | null;
+  parent: NodeType<T> | null;
   value : T;
-  add : (type :'right'|'left',value:T) => void;
+  add : (item:NodeType<T>,type :'right'|'left') => void;
   remove : (type :'right'|'left') => void;
   print : () => void;
 };
