@@ -1,0 +1,22 @@
+import { Heap } from "./Heap";
+
+const heap = new Heap(3);
+// heap.add(1);
+// heap.add(2);
+heap.add(3);
+heap.add(4);
+heap.add(5);
+heap.add(6);
+heap.add(7);
+heap.add(8);
+heap.add(9);
+heap.add(10);
+console.log('delete : ',heap.delete());
+console.log(heap.tree);
+console.log('delete : ',heap.delete());
+console.log(heap.tree);
+console.log('delete : ',heap.delete());
+console.log(heap.tree);
+console.log('delete : ',heap.delete());
+console.log(heap.tree);
+console.log(heap.peek());
