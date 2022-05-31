@@ -5,10 +5,10 @@ export class SegmentTree<T extends number>{
   node:T[] | number[];
 
   constructor(arr:T[]){
-    this.max = arr.length - 1;
+    this.max = arr.length;
     this.size = this.max * 4;
-    this.node = [...arr];
-    this.tree = [...arr];
+    this.node = [0,...arr];
+    this.tree = [0,...arr];
     this.init(0,1,this.max);
   }
 
