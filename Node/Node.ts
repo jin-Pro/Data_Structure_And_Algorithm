@@ -1,50 +1,30 @@
 export class node <T> {
-  left:NodeType<T> | null;
-  right:NodeType<T> | null;
-  parent:NodeType<T> | null;
+  prev:NodeType<T>
+  next : NodeType<T>
   value : T;
 
-  constructor(value : T,parent : NodeType<T> | null = null){
-    this.left = null;
-    this.right = null;
+  constructor(value : T){
     this.value = value;
-    this.parent = parent;
+    this.prev = this;
+    this.next = this;
+    
   }
 
-  add(item:NodeType<T>,type:'right' | 'left'){
-    this[type] = item;
-    item.parent = this;
+  add(item:NodeType<T>){
+    item.next = this.next;
+    this.next.prev = item;
+    this.next = item;
+    item.prev = this;
   }
 
-  remove(type:'right' | 'left'){
-    this[type] = null;
-  }
-
-  preOrderPrint(){
-    console.log(this.value);
-    if(this.left) this.left.preOrderPrint();
-    if(this.right) this.right.preOrderPrint();
-  }
-  inOrderPrint(){
-    if(this.left) this.left.inOrderPrint();
-    console.log(this.value);
-    if(this.right) this.right.inOrderPrint();
-  }
-  postOrderPrint(){
-    if(this.left) this.left.postOrderPrint();
-    if(this.right) this.right.postOrderPrint();
-    console.log(this.value);
+  remove(){
+    this.next = this.next.next;
+    this.next.prev = this;
   }
 }
 
 type NodeType<T> = {
-  left: NodeType<T> | null;
-  right: NodeType<T> | null;
-  parent: NodeType<T> | null;
+  prev: NodeType<T>;
+  next: NodeType<T>;
   value : T;
-  add : (item:NodeType<T>,type :'right'|'left') => void;
-  remove : (type :'right'|'left') => void;
-  preOrderPrint : () => void;
-  inOrderPrint : () => void;
-  postOrderPrint : () => void;
 };
