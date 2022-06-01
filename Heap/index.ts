@@ -1,7 +1,7 @@
 import { FunctionType, Heap } from "./Heap";
-const fn: FunctionType = (num1, num2) => num1 < num2;
+const fn: FunctionType<number> = (num1, num2) => num1 < num2;
 
-const heap = new Heap(3, fn);
+const heap = new Heap<number>(3, fn);
 // heap.add(1);
 // heap.add(2);
 heap.add(3);

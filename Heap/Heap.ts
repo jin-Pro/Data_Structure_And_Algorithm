@@ -1,9 +1,9 @@
 export class Heap<T> {
   tree: T[];
   length: number;
-  sort: FunctionType;
+  sort: FunctionType<T>;
 
-  constructor(value: T, fn: FunctionType) {
+  constructor(value: T, fn: FunctionType<T>) {
     this.tree = [value];
     this.sort = fn;
     this.length = this.tree.length;
@@ -50,13 +50,13 @@ export class Heap<T> {
     let idx = this.length - 1;
     const target = this.tree[idx];
     let [parentIdx, parent] = getBottomUpData(idx, this.tree);
-
     //최대 힙
     while (this.sort(parent, target)) {
       this.tree[idx] = parent;
       this.tree[parentIdx] = target;
       idx = parentIdx;
       [parentIdx, parent] = getBottomUpData(idx, this.tree);
+      if (!parent) break;
     }
   }
 
@@ -82,12 +82,13 @@ export class Heap<T> {
       idx = tempIdx;
       [leftChildIdx, rightChildIdx] = getTopDownIdx(idx);
       [leftChildNode, rightChildNode] = getTopDownNode(idx, this.tree);
+      if (!leftChildNode || !rightChildNode) break;
     }
   }
 }
 
-export type FunctionType = <T>(num1: T, num2: T) => boolean;
-const fn: FunctionType = (num1, num2) => num1 < num2;
+export type FunctionType<T> = (num1: T, num2: T) => boolean;
+// const fn: FunctionType<number> = (num1, num2) => num1 < num2;
 
 type getTopDownIdxType = (idx: number) => [number, number];
 const getTopDownIdx: getTopDownIdxType = (idx) => [idx * 2 + 1, idx * 2 + 2];
@@ -108,7 +109,7 @@ type getTempChildDataType = <T>(
   right: number,
   left: number,
   tree: T[],
-  fn: FunctionType
+  fn: FunctionType<T>
 ) => [number, T];
 const getTempChildData: getTempChildDataType = (
   rightChildIdx,
