@@ -3,52 +3,26 @@ export class Kruskal {
   vertexLength: number;
   linkVertex: number[][];
   vertex: number[][];
-  graphList: listType;
+  unionFind: number[];
 
   constructor(nodeLength: number, vertexLength: number, arr: number[][]) {
     this.nodeLength = nodeLength;
     this.vertexLength = vertexLength;
     this.vertex = arr.sort(([s, a, v], [_s, _a, _v]) => v - _v);
     this.linkVertex = [];
-    this.graphList = {};
+    this.unionFind = Array.from({ length: this.nodeLength + 1 }, (v, i) => i);
     this.getMST();
-  }
-
-  makeList(obj: listType, [s, a, v]: number[]): void {
-    if (obj[s]) {
-      obj[s].push([a, v]);
-    } else {
-      obj[s] = [[a, v]];
-    }
   }
 
   getMST() {
     for (const arg of this.vertex) {
       if (this.checkCycle(arg)) continue;
       this.linkVertex.push(arg);
-      this.makeList(this.graphList, arg);
+      this.addUnion(arg);
     }
     console.log(this.checkMST());
   }
 
-  checkCycle(vertex: number[]): boolean {
-    for (const key of Object.keys(this.graphList)) {
-      const visit = Array.from(new Array(this.nodeLength), (x) => false);
-        for (const [a,v] of this.graphList[Number(key)]){
-            if(visit[a]) return false;
-
-        }
-    }
-    return false;
-  }
-  dfs(visit:boolean[],key:number){
-    for (const [a,v] of this.graphList[key]){
-        if(visit[a]) return false;
-        visit[a] = true;
-        this.dfs(visit,a)
-    }
-    return true;
-  }
   checkMST(): number {
     return this.linkVertex.length === this.nodeLength - 1
       ? this.countVertex()
@@ -62,8 +36,27 @@ export class Kruskal {
     }
     return count;
   }
-}
 
-type listType = {
-  [index: number]: number[][];
-};
+  checkCycle([start, arrive, _]: number[]): boolean {
+    const startParent = this.findParent(start);
+    const arriveParent = this.findParent(arrive);
+    if (startParent === arriveParent) return true;
+    return false;
+  }
+
+  findParent(n: number): number {
+    return this.getParent(n);
+  }
+
+  getParent(n: number): number {
+    if (this.unionFind[n] === n) return n;
+    return (this.unionFind[n] = this.getParent(this.unionFind[n]));
+  }
+
+  addUnion([start, arrive, _]: number[]) {
+    const startParent = this.findParent(start);
+    const arriveParent = this.findParent(arrive);
+    if (startParent > arriveParent) this.unionFind[startParent] = arriveParent;
+    else this.unionFind[arriveParent] = startParent;
+  }
+}
