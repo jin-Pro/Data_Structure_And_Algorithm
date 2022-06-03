@@ -66,10 +66,10 @@ export class Heap<T> {
     const target = this.tree[idx];
     let [leftChildIdx, rightChildIdx] = getTopDownIdx(idx);
     let [leftChildNode, rightChildNode] = getTopDownNode(idx, this.tree);
-
     while (
-      this.sort(target, leftChildNode) ||
-      this.sort(target, rightChildNode)
+      leftChildNode &&
+      rightChildNode &&
+      (this.sort(target, leftChildNode) || this.sort(target, rightChildNode))
     ) {
       let [tempIdx, temp] = getTempChildData(
         rightChildIdx,
