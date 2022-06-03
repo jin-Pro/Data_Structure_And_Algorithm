@@ -1,8 +1,7 @@
 import { FunctionType, Heap } from "../Heap/Heap";
 
 export type queueItemType = [start: number, arrive: number, value: number];
-export const fn: FunctionType<queueItemType> = (edge1, edge2) =>
-  edge1[2] < edge2[2];
+const fn: FunctionType<queueItemType> = (edge1, edge2) => edge1[2] < edge2[2];
 
 const node: queueItemType = [1, 2, 3];
 const node1: queueItemType = [1, 2, 1];
