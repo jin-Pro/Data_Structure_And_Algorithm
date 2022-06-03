@@ -1,11 +1,13 @@
+import { queueItemType } from "../PriorityQueue";
+
 export class Kruskal {
   nodeLength: number;
   vertexLength: number;
   linkVertex: number[][];
-  vertex: number[][];
+  vertex: queueItemType[];
   unionFind: number[];
 
-  constructor(nodeLength: number, vertexLength: number, arr: number[][]) {
+  constructor(nodeLength: number, vertexLength: number, arr: queueItemType[]) {
     this.nodeLength = nodeLength;
     this.vertexLength = vertexLength;
     this.vertex = arr.sort(([s, a, v], [_s, _a, _v]) => v - _v);
