@@ -51,7 +51,7 @@ export class Heap<T> {
     const target = this.tree[idx];
     let [parentIdx, parent] = getBottomUpData(idx, this.tree);
     //최대 힙
-    while (this.sort(parent, target)) {
+    while (parent && target && this.sort(parent, target)) {
       this.tree[idx] = parent;
       this.tree[parentIdx] = target;
       idx = parentIdx;
