@@ -1,13 +1,11 @@
-import { queueItemType } from "../PriorityQueue";
-
-export class Kruskal {
+export class Kruskal<T extends number[]> {
   nodeLength: number;
   vertexLength: number;
-  linkVertex: number[][];
-  vertex: queueItemType[];
+  linkVertex: T[];
+  vertex: T[];
   unionFind: number[];
 
-  constructor(nodeLength: number, vertexLength: number, arr: queueItemType[]) {
+  constructor(nodeLength: number, vertexLength: number, arr: T[]) {
     this.nodeLength = nodeLength;
     this.vertexLength = vertexLength;
     this.vertex = arr.sort(([s, a, v], [_s, _a, _v]) => v - _v);
@@ -39,7 +37,7 @@ export class Kruskal {
     return count;
   }
 
-  checkCycle([start, arrive, _]: number[]): boolean {
+  checkCycle([start, arrive, _]: T): boolean {
     const startParent = this.findParent(start);
     const arriveParent = this.findParent(arrive);
     if (startParent === arriveParent) return true;
@@ -55,7 +53,7 @@ export class Kruskal {
     return (this.unionFind[n] = this.getParent(this.unionFind[n]));
   }
 
-  addUnion([start, arrive, _]: number[]) {
+  addUnion([start, arrive, _]: T) {
     const startParent = this.findParent(start);
     const arriveParent = this.findParent(arrive);
     if (startParent > arriveParent) this.unionFind[startParent] = arriveParent;

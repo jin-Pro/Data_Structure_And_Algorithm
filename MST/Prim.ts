@@ -1,14 +1,16 @@
 import { FunctionType, Heap } from "../Heap/Heap";
 import { queueItemType } from "../PriorityQueue";
 
+type nodeItem<T> = keyof T;
+
 export class Prim<T extends queueItemType> {
   PriorityQueue: Heap<T>;
-  node: Set<number>;
+  node: Set<nodeItem<T>>;
   vertex: T[];
   select: T[];
   size: number;
 
-  constructor(arr: T[], start: number, fn: FunctionType<T>, size: number) {
+  constructor(arr: T[], start: nodeItem<T>, fn: FunctionType<T>, size: number) {
     this.size = size;
     this.vertex = arr;
     const vertex = this.makeVertex(start);
@@ -26,7 +28,7 @@ export class Prim<T extends queueItemType> {
     return heap;
   }
 
-  makeVertex(start: number): T[] {
+  makeVertex(start: nodeItem<T>): T[] {
     return this.vertex.filter(
       ([_s, _a, _v]: T) => start === _s || start === _a
     );
