@@ -1,7 +1,8 @@
 import { FunctionType, Heap } from "../Heap/Heap";
 
-type queueItemType = [start: number, arrive: number, value: number];
-const fn: FunctionType<queueItemType> = (edge1, edge2) => edge1[2] < edge2[2];
+export type queueItemType = [start: number, arrive: number, value: number];
+export const fn: FunctionType<queueItemType> = (edge1, edge2) =>
+  edge1[2] < edge2[2];
 
 const node: queueItemType = [1, 2, 3];
 const node1: queueItemType = [1, 2, 1];
@@ -28,12 +29,12 @@ priorityQueue.add(node8);
 priorityQueue.add(node9);
 priorityQueue.add(node0);
 
-console.log(priorityQueue.delete());
-console.log(priorityQueue.delete());
-console.log(priorityQueue.delete());
-console.log(priorityQueue.delete());
-console.log(priorityQueue.delete());
-console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
+// console.log(priorityQueue.delete());
 
 // type queueItemType = [start: number, arrive: number, value: number];
 // type FunctionType<T> = (num1: T, num2: T) => boolean;
