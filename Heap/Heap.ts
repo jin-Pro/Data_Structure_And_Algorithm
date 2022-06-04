@@ -11,7 +11,7 @@ export class Heap<T> {
 
   // 추가
   add(value: T) {
-    this.tree?.push(value);
+    this.tree.push(value);
     this.length = this.tree.length ?? 0;
     // tree 정렬
     this.bottomUP();
@@ -45,82 +45,80 @@ export class Heap<T> {
     return this.length;
   }
 
+  getLeftChildIdx(parentIdx: number) {
+    return parentIdx * 2 + 1;
+  }
+
+  getRightChildIdx(parentIdx: number) {
+    return parentIdx * 2 + 2;
+  }
+
+  getParentIdx(childNodeIdx: number): number {
+    return Math.floor((childNodeIdx + 1) / 2) - 1;
+  }
+
+  getLeftChildNode(parentIdx: number) {
+    return this.tree[this.getLeftChildIdx(parentIdx)];
+  }
+
+  getRightChildNode(parentIdx: number) {
+    return this.tree[this.getRightChildIdx(parentIdx)];
+  }
+
+  getParentNode(childNodeIdx: number) {
+    return this.tree[this.getParentIdx(childNodeIdx)];
+  }
+
+  swap(idx1: number, idx2: number) {
+    const target1 = this.tree[idx1];
+    const target2 = this.tree[idx2];
+    this.tree[idx1] = target2;
+    this.tree[idx2] = target1;
+  }
+
   // add sort
   bottomUP(): void {
     let idx = this.length - 1;
     const target = this.tree[idx];
-    let [parentIdx, parent] = getBottomUpData(idx, this.tree);
+    let parentIdx = this.getParentIdx(idx);
+    let parent = this.getParentNode(idx);
     //최대 힙
-    while (parent && target && this.sort(parent, target)) {
-      this.tree[idx] = parent;
-      this.tree[parentIdx] = target;
+    while (parent && this.sort(parent, target)) {
+      this.swap(idx, parentIdx);
       idx = parentIdx;
-      [parentIdx, parent] = getBottomUpData(idx, this.tree);
-      if (!parent) break;
+      parentIdx = this.getParentIdx(idx);
+      parent = this.getParentNode(idx);
     }
+  }
+
+  getTempChildData(idx: number): number {
+    const leftChildNode = this.getLeftChildNode(idx);
+    const rightChildNode = this.getRightChildNode(idx);
+    const leftLargeThanRight = this.sort(rightChildNode, leftChildNode);
+    let tempIdx = leftLargeThanRight
+      ? this.getLeftChildIdx(idx)
+      : this.getRightChildIdx(idx);
+    return tempIdx;
   }
 
   // delete sort
   topDown(): void {
     let idx = 0;
     const target = this.tree[idx];
-    let [leftChildIdx, rightChildIdx] = getTopDownIdx(idx);
-    let [leftChildNode, rightChildNode] = getTopDownNode(idx, this.tree);
+    let leftChildNode = this.getLeftChildNode(idx);
+    let rightChildNode = this.getRightChildNode(idx);
     while (
       leftChildNode &&
       rightChildNode &&
       (this.sort(target, leftChildNode) || this.sort(target, rightChildNode))
     ) {
-      let [tempIdx, temp] = getTempChildData(
-        rightChildIdx,
-        leftChildIdx,
-        this.tree,
-        this.sort
-      );
-      this.tree[idx] = temp;
-      this.tree[tempIdx] = target;
+      const tempIdx = this.getTempChildData(idx);
+      this.swap(idx, tempIdx);
       idx = tempIdx;
-      [leftChildIdx, rightChildIdx] = getTopDownIdx(idx);
-      [leftChildNode, rightChildNode] = getTopDownNode(idx, this.tree);
-      if (!leftChildNode || !rightChildNode) break;
+      leftChildNode = this.getLeftChildNode(idx);
+      rightChildNode = this.getRightChildNode(idx);
     }
   }
 }
 
 export type FunctionType<T> = (num1: T, num2: T) => boolean;
-// const fn: FunctionType<number> = (num1, num2) => num1 < num2;
-
-type getTopDownIdxType = (idx: number) => [number, number];
-const getTopDownIdx: getTopDownIdxType = (idx) => [idx * 2 + 1, idx * 2 + 2];
-
-type getTopDownNodeType = <T>(idx: number, tree: T[]) => [T, T];
-const getTopDownNode: getTopDownNodeType = (idx, tree) => [
-  tree[idx * 2 + 1],
-  tree[idx * 2 + 2],
-];
-
-type getBottomUpType = <T>(idx: number, tree: T[]) => [number, T];
-const getBottomUpData: getBottomUpType = (idx, tree) => [
-  Math.floor((idx + 1) / 2) - 1,
-  tree[Math.floor((idx + 1) / 2) - 1],
-];
-
-type getTempChildDataType = <T>(
-  right: number,
-  left: number,
-  tree: T[],
-  fn: FunctionType<T>
-) => [number, T];
-const getTempChildData: getTempChildDataType = (
-  rightChildIdx,
-  leftChildIdx,
-  tree,
-  fn
-) => {
-  const leftChildNode = tree[leftChildIdx];
-  const rightChildNode = tree[rightChildIdx];
-  const leftLargeThanRight = fn(rightChildNode, leftChildNode);
-  let temp = leftLargeThanRight ? leftChildNode : rightChildNode;
-  let tempIdx = leftLargeThanRight ? leftChildIdx : rightChildIdx;
-  return [tempIdx, temp];
-};
