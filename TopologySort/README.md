@@ -13,3 +13,29 @@
 - 반복한다.
 - 모든 원소를 방문하기 전에 큐가 빈다면 사이클이 생성된다.
 - 큐에서 꺼낸 순서가 위상 정렬의 결과이다.
+
+---
+
+## Method
+
+- init
+
+  - node에 연결된 vertex의 수를 정리해준다.
+
+- sortInit
+
+  - 탐색할 queue에 넣을 node를 찾는다.
+
+- getVertexs
+
+  - 노드를 인자로 넣어주어 해당 노드와 연결된 vertex를 모두 반환한다.
+
+- removeVertex
+
+  - count 배열을 정리한다.
+
+- calc
+  - queue에 존재하는 노드를 반복하여 꺼낸다.
+  - 꺼낸 node와 연결된 vertex를 모두 뽑는다.
+  - vertex에 연결된 노드의 count를 정리한다.
+  - 정리된 count가 0인 노드를 queue와 sort에 추가한다.
